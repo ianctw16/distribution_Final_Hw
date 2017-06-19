@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+<title>台北市近期施工資訊</title>
+<link rel="stylesheet" href="w3.css">
+<style>
+    #map {
+            height: 80%;
+        }
+</style>
+
+<body id="body1">
+    <header></header>
+    <section></section>
+    <div id='map'></div>
+    <script>
+        var requestURL = 'construction.json';
+        var request = new XMLHttpRequest();
+        var mydivContainer = document.createElement("div");
+
+        mydivContainer.className = "w3-container w3-khaki";
+
+        request.open('GET', requestURL);
+        request.responseType = 'text';
+        request.send();
+        request.onload = function() {
+            var jsonText = request.response;
+            var jsonReaded = JSON.parse(jsonText);
+            populateHeader(jsonReaded);
+            showContent(jsonReaded);
+        }
+
+        function populateHeader(jsonObj) {
+            /*var myH1 = document.createElement('h1');
+            myH1.textContent = jsonObj['jsonName'];
+            myH1.style.color = 'blue';
+            header.appendChild(myH1);*/
+            var mydivH1 = document.createElement("div");
+            var myH1 = document.createElement('h1');
+            var img1 = document.createElement('img');
+            var myButtonExplain = document.createElement('h2');
+            var myButtonExplainContainer = document.createElement('div');
+            var myGoodExplainContainer = document.createElement('div');
+            var myGoodExplain = document.createElement('h2');
+
+
+            myGoodExplainContainer.className = "w3-container w3-green";
+            myButtonExplainContainer.className = "w3-container w3-red";
+            img1.src = "construction.png";
+            img1.style.width = "60%";
+            img1.style.height = "auto";
+            myH1.textContent = jsonObj['jsonName'];
+            myH1.className = "w3-wide w3-jumbo w3-text-orange";
+            myH1.style = "text-shadow:1px 1px 0 #444";
+            mydivH1.className = "w3-text-lime";
+            myButtonExplain.textContent = "底下 Map button 因為元資料的品質，導致其位置資訊根本不能拿去 Google Map 查詢，只能希望未來能完善。(我已經對於原資料做了格式的處理才讓這份資料能被讀取，但我沒有去對內容作更改，像：地址資訊的部分)";
+            myGoodExplain.textContent = "本網站符合 響應式網頁 RWD";
+
+
+            myGoodExplainContainer.appendChild(myGoodExplain);
+            myButtonExplainContainer.appendChild(myButtonExplain);
+            mydivH1.appendChild(myH1);
+            mydivH1.appendChild(myGoodExplainContainer);
+            mydivH1.appendChild(myButtonExplainContainer);
+            mydivH1.appendChild(img1);
+            mydivContainer.appendChild(mydivH1);
+
+        }
+
+        function showContent(jsonObj) {
+            var datas = jsonObj["history"];
+
+            for (i = 0; i < datas.length; i++) {
+
+                var mydivContainer_small_1 = document.createElement("div");
+                var mydivContainer_small_2 = document.createElement("div");
+                var mydivContainer_small_3 = document.createElement("div");
+
+                //var myArticle = document.createElement('article');
+
+                var myH2 = document.createElement('p');
+                var myPara1 = document.createElement('h2');
+                var myPara2 = document.createElement('h2');
+                var myPara3 = document.createElement('h2');
+                var myPara4 = document.createElement('h2');
+                var mypara5 = document.createElement('h2');
+                var mypara6 = document.createElement('h2');
+                var br = document.createElement("br");
+                var textLine = document.createElement("p");
+                var myButtonContainer = document.createElement('p');
+                var myButton = document.createElement('input');
+
+                mydivContainer_small_1.className = "w3-container w3-lime";
+                mydivContainer_small_2.className = "w3-container w3-teal";
+                mydivContainer_small_3.className = "w3-container w3-yellow";
+
+
+                myButton.type = "submit";
+                myButton.value = "Map";
+                myButton.className = "w3-button w3-green w3-round-xlarge";
+
+                myPara1.textContent = '施工編號 : ' + datas[i].AC_NO;
+                myH2.textContent = '施工名稱 :' + datas[i].APP_NAME;
+                myH2.className = "w3-xxlarge";
+                myH2.style = "text-shadow:1px 1px 0#444";
+                myPara3.textContent = '施工地點 : ' + datas[i].ADDR;
+                myPara2.textContent = '開始時間 : ' + datas[i].CB_DA;
+                myPara4.textContent = '結束時間 : ' + datas[i].CE_DA;
+                mypara5.textContent = '負責單位 : ' + datas[i].TC_NA;
+                mypara6.textContent = '負責人 : ' + datas[i].TC_MA + "-" + datas[i].TC_TL;
+                //myH2.style.color = 'green'; 
+                textLine.textContent = "--------------------------------------------------";
+
+                /*myArticle.appendChild(myH2);;
+                myArticle.appendChild(myPara1);
+                myArticle.appendChild(myPara2);
+                myArticle.appendChild(myPara4);  
+                myArticle.appendChild(myPara3);
+                myArticle.appendChild(textLine);  
+                section.appendChild(myArticle);*/
+                myButtonContainer.appendChild(myButton);
+                if (i % 3 == 0) {
+                    mydivContainer_small_1.appendChild(myH2);
+                    mydivContainer_small_1.appendChild(myPara1);
+                    mydivContainer_small_1.appendChild(myPara2);
+                    mydivContainer_small_1.appendChild(myPara4);
+                    mydivContainer_small_1.appendChild(myPara3);
+                    mydivContainer_small_1.appendChild(myButtonContainer);
+                    mydivContainer_small_1.appendChild(mypara5);
+                    mydivContainer_small_1.appendChild(mypara6);
+                }
+                if (i % 3 == 1) {
+                    mydivContainer_small_2.appendChild(myH2);
+                    mydivContainer_small_2.appendChild(myPara1);
+                    mydivContainer_small_2.appendChild(myPara2);
+                    mydivContainer_small_2.appendChild(myPara4);
+                    mydivContainer_small_2.appendChild(myPara3);
+                    mydivContainer_small_2.appendChild(myButtonContainer);
+                    mydivContainer_small_2.appendChild(mypara5);
+                    mydivContainer_small_2.appendChild(mypara6);
+                }
+                if (i % 3 == 2) {
+                    mydivContainer_small_3.appendChild(myH2);
+                    mydivContainer_small_3.appendChild(myPara1);
+                    mydivContainer_small_3.appendChild(myPara2);
+                    mydivContainer_small_3.appendChild(myPara4);
+                    mydivContainer_small_3.appendChild(myPara3);
+                    mydivContainer_small_3.appendChild(myButtonContainer);
+                    mydivContainer_small_3.appendChild(mypara5);
+                    mydivContainer_small_3.appendChild(mypara6);
+                }
+                mydivContainer.appendChild(mydivContainer_small_3);
+                mydivContainer.appendChild(mydivContainer_small_2);
+                mydivContainer.appendChild(mydivContainer_small_1);
+
+            }
+
+            document.getElementById("body1").appendChild(mydivContainer);
+        }
+        var map;
+        function initMap() {
+            var myDivMap = document.createElement('div');
+            myDivMap.setAttribute("id", 'map');
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {
+                    lat : 25.047702,
+                    lng : 121.5173735
+                },
+                zoom: 13
+            });
+            document.getElementById("body1").appendChild(myDivMap)
+        }
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCje7qm9Wo-I6j5PPgNZZHvpEACi93L33E&callback=initMap" async defer>
+    </script>
+</body>
+
+</html>
